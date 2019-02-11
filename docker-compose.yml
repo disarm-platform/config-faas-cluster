@@ -21,7 +21,10 @@ services:
         ports:
             - "80:80"     # The HTTP port, not the web UI port
             - "8085:8080" # For debugging
+            - "443:443"
         volumes:
+            - ./acme.json:/acme.json
+            - ./traefik.toml:/traefik.toml
             - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
         deploy:
             labels:
