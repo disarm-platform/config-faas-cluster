@@ -6,7 +6,7 @@ Config and instructions for a Locational OpenFaas cluster
 - clone this repo (see next point - if repo is private?)
 `git clone https://github.com/locational/config-faas-cluster`]
 
-- create ACME storage file for https certificates
+- create ACME storage file for https certificates with 
   `touch acme.json`
 
 - create a swarm
