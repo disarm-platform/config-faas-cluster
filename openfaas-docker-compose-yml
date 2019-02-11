@@ -24,7 +24,7 @@ services:
         deploy:
             labels:
                 - "traefik.docker.network=traefik-net"
-                - "traefik.frontend.rule=HostRegexp:faas.srv.locational.io"
+                - "traefik.frontend.rule=Host:faas.srv.locational.io"
                 - "traefik.port=8080"
             resources:
                 # limits:   # Enable if you want to limit memory usage
