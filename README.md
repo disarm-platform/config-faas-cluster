@@ -3,6 +3,8 @@ Config and instructions for a Locational OpenFaas cluster
 
 - create a swarm
 `docker swarm init --advertise-addr XXX.XXX.XXX.XXX`
+
+- note down the 'join a swarm' command from step above
   
 - create network traefik with overlay driver
 `docker network create -d overlay --attachable traefik-net`
