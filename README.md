@@ -4,10 +4,14 @@ Config and instructions for a Locational OpenFaas cluster
 - create new server! maybe too obvious, but is a useful place to start!
 
 - clone this repo (see next point - if repo is private?)
-`git clone https://github.com/locational/config-faas-cluster`]
+`git clone https://github.com/locational/config-faas-cluster`
+
+- `cd` into `config-faas-cluster` folder
 
 - create ACME storage file for https certificates with 
   `touch acme.json`
+
+- get the external IP (not floating or static) of the machine
 
 - create a swarm
 `docker swarm init --advertise-addr XXX.XXX.XXX.XXX`
@@ -20,6 +24,8 @@ Config and instructions for a Locational OpenFaas cluster
 
 - start the revrse proxy and 
 `docker stack deploy -c docker-compose.yml rp`
+
+- once confirmed traefik running fine, remove the port entry from `docker-compose.yml` to avoid leaving traefik dashboard exposed
 
 - add secrets for openfaas
 `echo "admin" | docker secret create basic-auth-user -`
