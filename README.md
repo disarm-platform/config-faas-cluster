@@ -22,3 +22,6 @@ Config and instructions for a Locational OpenFaas cluster
   and edit the `traefik.frontend.rule` label to be the openfaas domain name on the gateway service.
   
   
+## Datadog agent
+
+For monitoring, can add a Datadog stack from the Portainer 'app templates' section. Only additional info needed is the API key from Datadog.
