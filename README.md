@@ -25,15 +25,17 @@ Config and instructions for a Locational OpenFaas cluster
 - start the revrse proxy and 
 `docker stack deploy -c docker-compose.yml rp`
 
-- once confirmed traefik running fine, remove the port entry from `docker-compose.yml` to avoid leaving traefik dashboard exposed
+- once confirmed traefik running fine, remove the port entry from `docker-compose.yml` to avoid leaving traefik dashboard exposed, and redeploy stack as above(`docker stack deploy...`)
+
+- visit port.srv.locational.io and create initial username and password
 
 - add secrets for openfaas
 `echo "admin" | docker secret create basic-auth-user -`
 `echo "verysecretpassword" | docker secret create basic-auth-password -`
 
-- Login to portainer and create a stack from the openfaas template
+- Login to portainer and create and deploy a stack from the openfaas template
+
 - On the openfaas stack edit the docker-compose.yml and replace it with the openfaas docker compose file from this repo
-  and edit the `traefik.frontend.rule` label to be the openfaas domain name on the gateway service.
   
 - For monitoring, add the datadog agent from the portainer templates with an API key from [this](https://app.datadoghq.com/account/settings#api) page of the datadog website
   
