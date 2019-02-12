@@ -18,13 +18,12 @@ Config and instructions for a Locational OpenFaas cluster
 1. create network traefik with overlay driver
 `docker network create -d overlay --attachable traefik-net`
 
-
 1. start the revrse proxy and 
 `docker stack deploy -c docker-compose.yml rp`
 
-1. once confirmed traefik running fine, remove the port entry from `docker-compose.yml` to avoid leaving traefik dashboard exposed, and redeploy stack as above(`docker stack deploy...`)
+1. check https://traefik.srv.locational.io is live and reachable, with a couple of _Frontends_ and a couple of _Backends_
 
-1. visit port.srv.locational.io and create initial username and password
+1. visit https://port.srv.locational.io and create initial username and password
 
 1. add secrets for openfaas
 `echo "admin" | docker secret create basic-auth-user -`
@@ -36,4 +35,4 @@ Config and instructions for a Locational OpenFaas cluster
   
 1. For monitoring, add the datadog agent from the portainer templates with an API key from [this](https://app.datadoghq.com/account/settings#api) page of the datadog website
   
-  
+1. once confirmed traefik running fine, remove the port entry from `docker-compose.yml` to avoid leaving traefik dashboard exposed, and redeploy stack as above(`docker stack deploy...`)  
