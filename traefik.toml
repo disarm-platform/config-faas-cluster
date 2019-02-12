@@ -1,5 +1,6 @@
 debug = true
 
+logLevel = "ERROR"
 defaultEntryPoints = ["https","http"]
 
 [entryPoints]

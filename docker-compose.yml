@@ -17,7 +17,6 @@ services:
             - traefik-net
     traefik:
         image: traefik
-        command: --logLevel=DEBUG
         ports:
             - "80:80"
             - "443:443"
