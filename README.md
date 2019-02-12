@@ -8,9 +8,6 @@ Config and instructions for a Locational OpenFaas cluster
 
 1. `cd` into `config-faas-cluster` folder
 
-1. create ACME storage file for https certificates with 
-  `touch acme.json`
-
 1. get the external IP (not floating or static) of the machine
 
 1. create a swarm
