@@ -17,13 +17,8 @@ services:
             - traefik-net
     traefik:
         image: traefik
-        # For initial setup, keep the `--api` flag
-        command: --api --docker --docker.swarmmode --docker.domain=srv.locational.io --docker.watch
-        # For production, remove the `--api` flag, and the 8085:8080 port mapping below.
-        # command: --docker --docker.swarmmode --docker.domain=srv.locational.io --docker.watch
         ports:
-            - "80:80"     # The HTTP port, not the web UI port
-            - "8085:8080" # For debugging
+            - "80:80"
             - "443:443"
         volumes:
             - ./acme:/acme

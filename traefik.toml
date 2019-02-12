@@ -8,17 +8,22 @@ defaultEntryPoints = ["https","http"]
   address = ":80"
     [entryPoints.http.redirect]
     entryPoint = "https"
+    [entryPoints.http.auth.basic]
+    users = ["admin:$apr1$8xXT/19a$2sk8aeivRrsqrr9oXinaM/"]
   [entryPoints.https]
   address = ":443"
-  [entryPoints.https.tls]
+    [entryPoints.https.tls]
 
 [retry]
+
+[api]
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
 domain = "srv.locational.io"
 watch = true
 exposedByDefault = false
+swarmMode = true
 
 [acme]
 email = "admin@peoplesized.com"
