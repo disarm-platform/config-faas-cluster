@@ -10,10 +10,12 @@ services:
       - DD_API_KEY=$API_KEY
       - DD_LOGS_ENABLED=true
       - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_PROCESS_AGENT_ENABLED=true
       - DD_AC_EXCLUDE="name:datadog-agent"
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /proc/:/host/proc/:ro
       - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+      - /etc/passwd:/etc/passwd:ro
       # - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
