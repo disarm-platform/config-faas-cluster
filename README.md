@@ -8,6 +8,7 @@ Config and instructions for a Locational OpenFaas cluster from scratch.
 1. `cd` into `config-faas-cluster` folder
 1. Get the external IP (not floating or static) of the machine
 1. Create a swarm: `docker swarm init --advertise-addr XXX.XXX.XXX.XXX`
+1. Ensure firewall is open: `ufw allow 2377` or similar
 1. Note down the 'join a swarm' command from step above - will be needed to add more nodes to the cluster
 1. Create network traefik with overlay driver: `docker network create -d overlay --attachable traefik-net`
 1. Start the stack: `docker stack deploy -c docker-compose.yml rp`
