@@ -1,0 +1,9 @@
+instances:
+  # The prometheus endpoint to query from
+  - prometheus_url: http://gateway:8080/metrics
+    namespace: "function_gateway"
+    metrics:
+      - gateway_*
+      - http_*
+
+  - max_returned_metrics: 200000

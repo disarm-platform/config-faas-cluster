@@ -6,7 +6,7 @@ services:
       - func_functions
 
     configs:
-      - source: datadog_prometheus_copy
+      - source: datadog_prometheus
         target:  /etc/datadog-agent/conf.d/prometheus.d/conf.yaml
     deploy:
       mode: global
@@ -26,7 +26,7 @@ services:
       - /etc/passwd:/etc/passwd:ro
 
 configs:
-  datadog_prometheus_copy:
+  datadog_prometheus:
     external: true
 
 networks:
