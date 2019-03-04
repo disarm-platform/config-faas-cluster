@@ -1,7 +1,13 @@
-version: '3'
+version: '3.3'
 services:
   datadog-agent:
     image: datadog/agent:latest
+    networks:
+      - func_functions
+
+    configs:
+      - source: datadog_prometheus_copy
+        target:  /etc/datadog-agent/conf.d/prometheus.d/conf.yaml
     deploy:
       mode: global
       restart_policy:
@@ -18,4 +24,12 @@ services:
       - /proc/:/host/proc/:ro
       - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
       - /etc/passwd:/etc/passwd:ro
-      # - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
+
+configs:
+  datadog_prometheus_copy:
+    external: true
+
+networks:
+    func_functions:
+       external: true
+       driver: overlay
