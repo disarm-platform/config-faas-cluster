@@ -14,7 +14,7 @@ services:
             dnsrr: "true"                   # Temporarily use dnsrr in place of VIP while issue persists on PWD
             faas_nats_address: "nats"
             faas_nats_port: 4222
-            direct_functions: "true"        # Functions are invoked directly over the overlay network
+            direct_functions: "false"        # Functions are invoked directly over the overlay network
             direct_functions_suffix: ""
             basic_auth: "${BASIC_AUTH:-true}"
             secret_mount_path: "/run/secrets/"
@@ -24,8 +24,9 @@ services:
         deploy:
             labels:
                 - "traefik.docker.network=traefik-net"
-                - "traefik.frontend.rule=Host:faas.srv.locational.io"
                 - "traefik.port=8080"
+                - "traefik.run.frontend.rule=Host:faas.srv.locational.io;PathPrefix:/function/,/async-function/;Headers: X-Server-Key,${SERVER_KEY}"
+                - "traefik.basic.frontend.rule=Host:faas.srv.locational.io;PathPrefix:/ui,/system"
             resources:
                 # limits:   # Enable if you want to limit memory usage
                 #     memory: 200M
@@ -79,13 +80,18 @@ services:
         image: nats-streaming:0.11.2
         # Uncomment the following port mappings if you wish to expose the
         # NATS client and/or management ports you must also add `-m 8222` to the command
-        # ports:
-        #     - 4222:4222
-        #     - 8222:8222
-        command: "--store memory --cluster_id faas-cluster"
+        ports:
+             - 4222:4222
+          #   - 8222:8222
+        command: "--store memory --cluster_id faas-cluster -m 8222 --debug"
         networks:
             - functions
+            - traefik-net
         deploy:
+            labels:
+                - "traefik.docker.network=traefik-net"
+                - "traefik.frontend.rule=Host:nats.srv.locational.io"
+                - "traefik.port=8222"
             resources:
                 limits:
                     memory: 125M
@@ -101,6 +107,7 @@ services:
             - functions
         environment:
             max_inflight: "1"
+            ack_wait: "5m5s"    # Max duration of any async task / request
             ack_wait: "5m5s"    # Max duration of any async task / request
             basic_auth: "${BASIC_AUTH:-true}"
             secret_mount_path: "/run/secrets/"
