@@ -28,4 +28,4 @@ Config and instructions for a Locational OpenFaas cluster from scratch.
 ## Monitoring  
 1. For monitoring, add the datadog agent from the portainer templates with an API key from [this](https://app.datadoghq.com/account/settings#api) page of the datadog website. There is a customised `datadog.yml` file included in this repo that also activates logging.
 1. Optionally, add the Portainer Agent stack from the _app templates_, to help Portainer see what's happening on all nodes in the cluster.
-  
+1. Use the docker compose from this repository  
