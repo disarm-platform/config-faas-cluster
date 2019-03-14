@@ -4,7 +4,7 @@ Config and instructions for a Locational OpenFaas cluster from scratch.
 ## Setup
 
 1. Create new server!
-1. Clone this repo (see next point - if repo is private?): `git clone https://github.com/locational/config-faas-cluster`
+1. Clone this repo: `git clone https://github.com/locational/config-faas-cluster` (will need to use your GitHub login)
 1. `cd` into `config-faas-cluster` folder
 1. Get the external IP (not floating or static) of the machine
 1. Create a swarm: `docker swarm init --advertise-addr XXX.XXX.XXX.XXX`
