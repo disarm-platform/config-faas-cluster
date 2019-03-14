@@ -8,7 +8,7 @@ Config and instructions for a Locational OpenFaas cluster from scratch.
 1. `cd` into `config-faas-cluster` folder
 1. Get the external IP (not floating or static) of the machine
 1. Create a swarm: `docker swarm init --advertise-addr XXX.XXX.XXX.XXX`
-1. Ensure firewall is open for ports: 2377, 4789, 7946 (from [here](https://www.digitalocean.com/community/tutorials/how-to-configure-the-linux-firewall-for-docker-swarm-on-centos-7)): `ufw allow 2376,2377/tcp && ufw allow 4789/udp && ufw allow 7946`
+1. Ensure firewall is open for ports: 2377, 4789, 7946 (from [here](https://www.digitalocean.com/community/tutorials/how-to-configure-the-linux-firewall-for-docker-swarm-on-centos-7)): see Firewall below
 1. Note down the 'join a swarm' command from step above - will be needed to add more nodes to the cluster
 1. Create network traefik with overlay driver: `docker network create -d overlay --attachable traefik-net`
 1. Start the stack: `docker stack deploy -c docker-compose.yml rp`
@@ -21,6 +21,19 @@ Config and instructions for a Locational OpenFaas cluster from scratch.
     ```
 1. Login to https://port.srv.locational.io and create and deploy an **OpenFaaS** stack from the _app templates_.
 1. On the **OpenFaaS** stack _editor_, replace the `docker-compose.yml` content with the `openfaas-docker-compose.yml` file in this repo
+
+## Firewall
+
+```
+ufw allow 22/tcp
+ufw allow 2376/tcp
+ufw allow 2377/tcp # Only for manager node
+ufw allow 7946/tcp
+ufw allow 7946/udp
+ufw allow 4789/udp
+ufw reload
+systemctl restart docker
+```
 
 ## Cleanup
 1. Once confirmed stack is up and Traefik is running fine, remove the port entry from `docker-compose.yml` to avoid leaving traefik dashboard exposed, and redeploy stack as above(`docker stack deploy...`).
