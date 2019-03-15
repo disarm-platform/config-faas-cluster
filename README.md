@@ -26,6 +26,41 @@ Config and instructions for a Locational OpenFaas cluster from scratch.
 1. Once confirmed stack is up and Traefik is running fine, remove the port entry from `docker-compose.yml` to avoid leaving traefik dashboard exposed, and redeploy stack as above(`docker stack deploy...`).
 
 ## Monitoring  
-1. For monitoring, add the datadog agent from the portainer templates with an API key from [this](https://app.datadoghq.com/account/settings#api) page of the datadog website. There is a customised `datadog.yml` file included in this repo that also activates logging.
 1. Optionally, add the Portainer Agent stack from the _app templates_, to help Portainer see what's happening on all nodes in the cluster.
-  
+
+
+## Datadog
+
+Using it to monitor both system and Docker contexts, with processes, containers and logs.
+
+1. Install agent: `DD_API_KEY=<DD_KEY!> bash -c "$(curl -L https://raw.githubusercontent.com/DataDog/datadog-agent/master/cmd/agent/install_script.sh)"` [instructions](https://app.datadoghq.com/account/settings#agent/ubuntu)
+2. Add agent to docker and system-d groups: `usermod -a -G docker dd-agent` and `usermod -a -G systemd-journal dd-agent`
+3. Configure logging: `mkdir conf.d/journal.d`, edit `conf.yaml` [instructions](https://docs.datadoghq.com/integrations/journald/):
+    ```yaml
+    logs:
+        - type: journald
+        path: /var/log/journal/
+    ```
+4. Configure Docker: edit `conf.d/docker.d/docker_daemon.yaml`:
+    ```yaml
+    init_config:
+
+    instances:
+        - url: "unix://var/run/docker.sock"
+        new_tag_names: true
+    ```
+4. Edit `datadog.yaml`, adding to the top:
+    ```yaml
+    process_config:
+        enabled: "true"
+
+    logs_enabled: true
+
+    listeners:
+        - name: docker
+
+    config_providers:
+        - name: docker
+          polling: true
+    ```
+5. Restart the agent and check status: `sudo service datadog-agent restart` and `sudo service datadog-agent status`
