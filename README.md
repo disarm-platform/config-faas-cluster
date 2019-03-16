@@ -61,6 +61,9 @@ Using it to monitor both system and Docker contexts, with processes, containers 
     instances:
         - url: "unix://var/run/docker.sock"
         new_tag_names: true
+        
+    logs:
+        - type: docker 
     ```
 4. Edit `datadog.yaml`, adding to the top:
     ```yaml
