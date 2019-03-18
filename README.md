@@ -8,7 +8,7 @@ Config and instructions for a Locational OpenFaas cluster from scratch.
 1. `cd` into `config-faas-cluster` folder
 1. Get the external IP (not floating or static) of the machine
 1. Create a swarm: `docker swarm init --advertise-addr XXX.XXX.XXX.XXX`
-1. Ensure firewall is open for ports: 2377, 4789, 7946 (from [here](https://www.digitalocean.com/community/tutorials/how-to-configure-the-linux-firewall-for-docker-swarm-on-centos-7)): see [Firewall](#Firewall) below
+1. Ensure firewall is open for ports: 2377, 4789, 7946 (from [here](https://www.digitalocean.com/community/tutorials/how-to-configure-the-linux-firewall-for-docker-swarm-on-centos-7)), and also 9001 (for Portainer agent): see [Firewall](#Firewall) below
 1. Note down the 'join a swarm' command from step above - will be needed to add more nodes to the cluster
 1. Create network traefik with overlay driver: `docker network create -d overlay --attachable traefik-net`
 1. Start the stack: `docker stack deploy -c docker-compose.yml rp`
@@ -31,6 +31,7 @@ ufw allow 2377/tcp # Only for manager node
 ufw allow 7946/tcp
 ufw allow 7946/udp
 ufw allow 4789/udp
+ufw allow 9001
 ufw reload
 systemctl restart docker
 ```
