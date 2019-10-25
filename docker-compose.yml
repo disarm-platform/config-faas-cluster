@@ -16,7 +16,7 @@ services:
         networks:
             - traefik-net
     traefik:
-        image: traefik
+        image: traefik:v1.7.16
         # For initial setup, keep the `--api` flag
         command: --api --docker --docker.swarmmode --docker.domain=srv.locational.io --docker.watch
         # For production: (remove the `--api` flag, and the 8085:8080 port mapping below)
