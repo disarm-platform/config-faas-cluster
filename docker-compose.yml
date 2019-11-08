@@ -14,15 +14,15 @@ services:
             labels:
                - "traefik.docker.network=traefik-net"
                - "traefik.port=9000"
-               - "traefik.frontend.rule=Host:port.srv2.disarm.io"
+               - "traefik.frontend.rule=Host:port.srv.disarm.io"
         networks:
             - traefik-net
     traefik:
         image: traefik:v1.7.16
         # For initial setup, keep the `--api` flag
-        command: --api --docker --docker.swarmmode --docker.domain=srv2.disarm.io --docker.watch
+        command: --api --docker --docker.swarmmode --docker.domain=srv.disarm.io --docker.watch
         # For production: (remove the `--api` flag, and the 8085:8080 port mapping below)
-        # command: --docker --docker.swarmmode --docker.domain=srv2.disarm.io --docker.watch
+        # command: --docker --docker.swarmmode --docker.domain=srv.disarm.io --docker.watch
         ports:
             - "80:80"     # The HTTP port, not the web UI port
             - "8085:8080" # Keep for debugging, remove for production
@@ -33,7 +33,7 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
         deploy:
             labels:
-               - "traefik.frontend.rule=Host:traefik.srv2.disarm.io"
+               - "traefik.frontend.rule=Host:traefik.srv.disarm.io"
                - "traefik.port=8080"
                - "traefik.docker.network=traefik-net"
             placement:
