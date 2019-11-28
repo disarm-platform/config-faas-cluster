@@ -13,6 +13,7 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
 1. Create network `traefik-net` with overlay driver: `docker network create -d overlay --attachable traefik-net`
 1. Ensure `docker-compose.yml`, `openfaas-docker-compose.yml` and `traefik.toml` contain references to the correct domain/subdomains.
 1. Start the stack: `docker stack deploy -c docker-compose.yml rp`
+1. Add ssl-certifacte to be accesssed by openfaas as a docker secret `docker secret create ssl-cert ./squid/cert/private.pem`.
 1. Confirm https://traefik.srv.disarm.io is live and reachable, with a couple of _Frontends_ and a couple of _Backends_
 1. Visit https://port.srv.disarm.io to create initial username and password
 1. Add secrets for openfaas:
