@@ -41,7 +41,28 @@ services:
             placement:
                 constraints: [node.role == manager]
         networks:
-           - traefik-net
+            - traefik-net
+
+    squid-alpine-ssl:
+        image: alatas/squid-alpine-ssl:r3
+        environment:
+            - CN=squid.local
+            - O=squid
+            - OU=squid
+            - C=US
+        ports:
+            - "3128:3128"
+            - "4128:4128"
+        volumes:
+            - ./squid/log:/var/log/
+            - ./squid/conf/squid.conf:/etc/squid/squid.conf
+            - ./squid/cache:/var/cache
+            - ./squid/cert:/etc/squid-cert
+        restart: always
+
+        
+
+    
 
 networks:
     traefik-net:
