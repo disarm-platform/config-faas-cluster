@@ -246,6 +246,24 @@ services:
             - source: basic-auth-password
               target: /var/secrets/basic-auth-password
 
+     # Squid for caching requests
+     squid-alpine-ssl:
+        image: alatas/squid-alpine-ssl:r3
+        environment:
+            - CN=squid.local
+            - O=squid
+            - OU=squid
+            - C=US
+        ports:
+            - "3128:3128"
+            - "4128:4128" # for caching http requests
+        volumes:
+            - ./squid/log:/var/log/
+            - ./squid/conf/squid.conf:/etc/squid/squid.conf
+            - ./squid/cache:/var/cache
+            - ./squid/cert:/etc/squid-cert
+        
+
 
 configs:
     prometheus_config:
