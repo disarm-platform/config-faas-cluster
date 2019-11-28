@@ -3,7 +3,7 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
 
 ## Setup
 
-1. Create new server(s)! Everything below is to be run on the _manager_ node.
+1. Create new server(s)! Needs to be running Docker. Everything below is to be run on the _manager_ node.
 1. Clone this repo: `git clone https://github.com/disarm-platform/config-faas-cluster` (will need to use your GitHub login)
 1. `cd` into `config-faas-cluster` folder
 1. Get the internal IP of the machine (e.g. from Google VM dashboard) or external (ideally is static)
