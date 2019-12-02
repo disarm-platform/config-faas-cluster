@@ -3,7 +3,7 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
 
 ## Setup
 
-1. Create new server(s)! Everything below is to be run on the _manager_ node.
+1. Create new server(s)! Needs to be running Docker. Everything below is to be run on the _manager_ node.
 1. Clone this repo: `git clone https://github.com/disarm-platform/config-faas-cluster` (will need to use your GitHub login)
 1. `cd` into `config-faas-cluster` folder
 1. Get the internal IP of the machine (e.g. from Google VM dashboard) or external (ideally is static)
@@ -13,8 +13,9 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
 1. Create network `traefik-net` with overlay driver: `docker network create -d overlay --attachable traefik-net`
 1. Ensure `docker-compose.yml`, `openfaas-docker-compose.yml` and `traefik.toml` contain references to the correct domain/subdomains.
 1. Start the stack: `docker stack deploy -c docker-compose.yml rp`
-1. Confirm https://traefik.srv2.disarm.io is live and reachable, with a couple of _Frontends_ and a couple of _Backends_
-1. Visit https://port.srv2.disarm.io to create initial username and password
+1. Add _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`.
+1. Confirm https://traefik.srv.disarm.io is live and reachable, with a couple of _Frontends_ and a couple of _Backends_
+1. Visit https://port.srv.disarm.io to create initial username and password
 1. Add secrets for openfaas:
     ```sh
     echo "admin" | docker secret create basic-auth-user -

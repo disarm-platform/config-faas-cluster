@@ -247,6 +247,7 @@ services:
               target: /var/secrets/basic-auth-password
 
 
+
 configs:
     prometheus_config:
         file: ./prometheus/prometheus.yml
