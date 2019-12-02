@@ -14,7 +14,7 @@ services:
             labels:
                - "traefik.docker.network=traefik-net"
                - "traefik.port=9000"
-               - "traefik.frontend.rule=Host:port.srv2.disarm.io"
+               - "traefik.frontend.rule=Host:port.srv.disarm.io"
             placement:
                 constraints: [node.role == manager]
         networks:
