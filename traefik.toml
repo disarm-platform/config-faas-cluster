@@ -17,7 +17,7 @@ defaultEntryPoints = ["https","http"]
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
-domain = "srv.disarm.io"
+domain = "srv2.disarm.io"
 watch = true
 exposedByDefault = false
 
