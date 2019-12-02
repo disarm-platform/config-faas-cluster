@@ -257,11 +257,6 @@ configs:
         file: ./prometheus/alertmanager.yml
 
 networks:
-    functions:
-        driver: overlay
-        attachable: true
-        labels:
-            - "openfaas=true"
     traefik-net:
         external: true
 
