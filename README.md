@@ -21,7 +21,7 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
     echo "admin" | docker secret create basic-auth-user -
     echo "verysecretpassword" | docker secret create basic-auth-password -
     ```
-1. Login to https://port.srv2.disarm.io and create and deploy an **OpenFaaS** stack from the _app templates_.
+1. Login to https://port.srv.disarm.io and create and deploy an **OpenFaaS** stack from the _app templates_.
 1. On the **OpenFaaS** stack _editor_, replace the `docker-compose.yml` content with the `openfaas-docker-compose.yml` file in this repo
 1. Add `AUTH_URL` environmental variable to the **OpenFaas** stack, set value to: http://basic-auth-plugin:8080/validate
 
