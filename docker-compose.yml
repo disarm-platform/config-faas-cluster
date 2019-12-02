@@ -43,7 +43,7 @@ services:
         networks:
             - traefik-net
 
-    squid-alpine-ssl:
+    squid:
         image: alatas/squid-alpine-ssl:r3
         environment:
             - CN=squid.local
