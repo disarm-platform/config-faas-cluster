@@ -257,6 +257,8 @@ configs:
         file: ./prometheus/alertmanager.yml
 
 networks:
+    functions:
+        external: true
     traefik-net:
         external: true
 
