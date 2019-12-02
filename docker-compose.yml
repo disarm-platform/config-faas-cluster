@@ -18,6 +18,7 @@ services:
                 constraints: [node.role == manager]
         networks:
             - traefik-net
+
     traefik:
         image: traefik:v1.7.16
         # For initial setup, keep the `--api` flag
@@ -57,6 +58,8 @@ services:
             - ./squid/conf/squid.conf:/etc/squid/squid.conf
             - ./squid/cache:/var/cache
             - ./squid/cert:/etc/squid-cert
+        networks: 
+            - functions
 
 networks:
     traefik-net:
