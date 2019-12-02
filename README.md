@@ -11,6 +11,7 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
 1. Note down the 'join a swarm' command from step above - will be needed to add more nodes to the cluster
 1. Ensure firewall is open for required ports: see [Firewall](#Firewall) below
 1. Create network `traefik-net` with overlay driver: `docker network create -d overlay --attachable traefik-net`
+1. Create network `functions` with overlay driver: `docker network create -d overlay --attachable functions --label openfaas=true`
 1. Ensure `docker-compose.yml`, `openfaas-docker-compose.yml` and `traefik.toml` contain references to the correct domain/subdomains.
 1. Start the stack: `docker stack deploy -c docker-compose.yml rp`
 1. Add _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`.
