@@ -1,0 +1,2 @@
+[{"name":"fn","image":"fn:0.0.1","invocationCount":21,"replicas":1,"envProcess":"./index.wls","availableReplicas":0,"labels":{"com.openfaas.function":"fn","com.openfaas.uid":"179168000","function":"true"},"annotations":null}]--_curl_--.[] | name: .name
+--_curl_--.[] |  image: .image
