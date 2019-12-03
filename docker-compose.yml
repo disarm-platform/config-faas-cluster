@@ -21,9 +21,9 @@ services:
     traefik:
         image: traefik:v1.7.16
         # For initial setup, keep the `--api` flag
-        command: --api --docker --docker.swarmmode --docker.domain=srv2.disarm.io --docker.watch
+        command: --api --docker --docker.swarmmode --docker.watch
         # For production: (remove the `--api` flag, and the 8085:8080 port mapping below)
-        # command: --docker --docker.swarmmode --docker.domain=srv2.disarm.io --docker.watch
+        # command: --docker --docker.swarmmode --docker.watch
         ports:
             - "80:80" # The HTTP port, not the web UI port
             - "8085:8080" # Keep for debugging, remove for production
