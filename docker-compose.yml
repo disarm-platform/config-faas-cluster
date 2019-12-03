@@ -18,6 +18,7 @@ services:
                 constraints: [node.role == manager]
         networks:
             - traefik-net
+
     traefik:
         image: traefik:v1.7.16
         # For initial setup, keep the `--api` flag
@@ -57,6 +58,15 @@ services:
             - ./squid/conf/squid.conf:/etc/squid/squid.conf
             - ./squid/cache:/var/cache
             - ./squid/cert:/etc/squid-cert
+        deploy:
+            labels:
+                - "traefik.docker.network=traefik-net"
+                - "traefik.http.port=3128"
+                - "traefik.http.frontend.rule=Host:squid.srv2.disarm.io"
+                - "traefik.https.port=4128"
+                - "traefik.https.frontend.rule=Host:squid-ssl.srv2.disarm.io"
+            placement:
+                constraints: [node.role == manager]
         networks: 
             - traefik-net
 networks:
