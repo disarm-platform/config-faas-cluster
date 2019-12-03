@@ -55,7 +55,7 @@ services:
             - ./squid/cache:/var/cache
             - ./squid/cert:/etc/squid-cert
         networks: 
-            - functions
+            - traefik-net
 networks:
     traefik-net:
         driver: overlay
