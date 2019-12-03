@@ -19,7 +19,8 @@ defaultEntryPoints = ["https","http"]
 endpoint = "unix:///var/run/docker.sock"
 domain = "srv2.disarm.io"
 watch = true
-exposedByDefault = false
+exposedByDefault = true
+swarmMode = true
 
 [acme]
 email = "admin@peoplesized.com"
@@ -29,3 +30,7 @@ onHostRule = true
   [acme.httpChallenge]
   entryPoint = "http"
 
+[api]
+  entryPoint = "traefik"
+  dashboard = true
+  debug = false
