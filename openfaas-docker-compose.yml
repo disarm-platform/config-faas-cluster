@@ -3,7 +3,7 @@ services:
     gateway:
         ports:
             - 8080:8080
-        image: openfaas/gateway:0.17.3
+        image: openfaas/gateway:0.18.2
         networks:
             - functions
             - traefik-net
@@ -48,7 +48,7 @@ services:
 
     # auth service provide basic-auth plugin for system APIs
     basic-auth-plugin:
-        image: openfaas/basic-auth-plugin:0.17.0
+        image: openfaas/basic-auth-plugin:0.18.2
         networks:
             - functions
         environment:
@@ -78,7 +78,7 @@ services:
     faas-swarm:
         volumes:
             - "/var/run/docker.sock:/var/run/docker.sock"
-        image: openfaas/faas-swarm:0.7.3
+        image: openfaas/faas-swarm:0.8.2
         networks:
             - functions
         environment:
@@ -127,7 +127,7 @@ services:
                     - "node.platform.os == linux"
 
     queue-worker:
-        image: openfaas/queue-worker:0.8.0
+        image: openfaas/queue-worker:0.8.1
         networks:
             - functions
         environment:
@@ -214,6 +214,7 @@ services:
               target: /alertmanager.yml
         secrets:
             - basic-auth-password
+
     faas-idler:
         image: openfaas/faas-idler:0.1.9
         networks:
