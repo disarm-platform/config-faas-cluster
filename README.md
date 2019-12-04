@@ -31,7 +31,20 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
 1. Confirm https://traefik.srv.disarm.io is live and reachable, with a couple of _Frontends_ and a couple of _Backends_
 1. Visit https://port.srv.disarm.io to create initial username and password
 
+# Re-deploy functions from one installation to another
 
+For example, to deploy all functions in `srv` to `srv2`:
+
+```
+   curl 'https://faas.srv.disarm.io/system/functions' -H 'authority: faas.srv.disarm.io' -H 'authorization: Basic dG9wc2VjcmV0dXNlcjphbmV3c2VjcmV0cGFzc3dvcmQ=' -H 'accept: application/json' > functions.json
+   
+   # Deploy each with scaling
+   < functions.json | jq -r '.[] | .name,.image' | parallel -n 2 --dry-run 'faas deploy --image={2} --name={1} --gateway=https://faas.srv2.disarm.io -l com.openfaas.scale.zero=true'
+   
+   # Invoke each, to trigger the scaling-to-zero
+   < functions.json | jq -r '.[] | .name,.image' | parallel -n 2 --dry-run 'echo "" | faas invoke {1} --gateway=https://faas.srv2.disarm.io'
+
+```
 
 ## Firewall
 
