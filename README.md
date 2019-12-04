@@ -21,7 +21,7 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
     echo "admin" | docker secret create basic-auth-user -
     echo "verysecretpassword" | docker secret create basic-auth-password -
     ```
-
+    
 ### Start the stacks
 1. Start the _proxy_ stack: `docker stack deploy -c docker-compose.yml rp`
 1. Add _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`. Must be run after certificate is created in `rp` stack.
