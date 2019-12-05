@@ -24,8 +24,8 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
     
 ### Start the stacks
 1. Start the _proxy_ stack: `docker stack deploy -c docker-compose.yml rp`
-1. Add _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`. Must be run after certificate is created in `rp` stack.
 1. Start the _OpenFaas_ stack: `docker stack deploy -c openfaas-docker-compose.yml func`
+1. Add _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`. Must be run after certificate is created in `func` (OpenFaas) stack.
 
 ### Confirm is alive
 1. Confirm https://traefik.srv.disarm.io is live and reachable, with a couple of _Frontends_ and a couple of _Backends_
