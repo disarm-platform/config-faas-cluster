@@ -39,10 +39,10 @@ For example, to deploy all functions in `srv` to `srv2`:
    curl 'https://faas.srv.disarm.io/system/functions' -H 'authority: faas.srv.disarm.io' -H 'authorization: Basic dG9wc2VjcmV0dXNlcjphbmV3c2VjcmV0cGFzc3dvcmQ=' -H 'accept: application/json' > functions.json
    
    # Deploy each with scaling
-   < functions.json | jq -r '.[] | .name,.image' | parallel -n 2 --dry-run 'faas deploy --image={2} --name={1} --gateway=https://faas.srv2.disarm.io -l com.openfaas.scale.zero=true'
+   < functions.json | jq -r '.[] | .name,.image' | parallel -n 2 --dry-run 'faas deploy --image={2} --name={1} --gateway=https://faas.srv.disarm.io -l com.openfaas.scale.zero=true'
    
    # Invoke each, to trigger the scaling-to-zero
-   < functions.json | jq -r '.[] | .name,.image' | parallel -n 2 --dry-run 'echo "" | faas invoke {1} --gateway=https://faas.srv2.disarm.io'
+   < functions.json | jq -r '.[] | .name,.image' | parallel -n 2 --dry-run 'echo "" | faas invoke {1} --gateway=https://faas.srv.disarm.io'
 
 ```
 

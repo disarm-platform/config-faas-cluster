@@ -27,7 +27,7 @@ services:
         deploy:
             labels:
                 - "traefik.docker.network=traefik-net"
-                - "traefik.frontend.rule=Host:faas.srv2.disarm.io"
+                - "traefik.frontend.rule=Host:faas.srv.disarm.io"
                 - "traefik.port=8080"
             resources:
                 # limits:   # Enable if you want to limit memory usage
@@ -266,9 +266,9 @@ services:
             # labels:
             #     - "traefik.docker.network=traefik-net"
             #     - "traefik.http.port=3128"
-            #     - "traefik.http.frontend.rule=Host:squid.srv2.disarm.io"
+            #     - "traefik.http.frontend.rule=Host:squid.srv.disarm.io"
             #     - "traefik.https.port=4128"
-            #     - "traefik.https.frontend.rule=Host:squid-ssl.srv2.disarm.io"
+            #     - "traefik.https.frontend.rule=Host:squid-ssl.srv.disarm.io"
             # placement:
             #     constraints: [node.role == manager]
         networks: 
