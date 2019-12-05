@@ -262,15 +262,6 @@ services:
             - ./squid/conf/squid.conf:/etc/squid/squid.conf
             - ./squid/cache:/var/cache
             - ./squid/cert:/etc/squid-cert
-        # deploy:
-            # labels:
-            #     - "traefik.docker.network=traefik-net"
-            #     - "traefik.http.port=3128"
-            #     - "traefik.http.frontend.rule=Host:squid.srv.disarm.io"
-            #     - "traefik.https.port=4128"
-            #     - "traefik.https.frontend.rule=Host:squid-ssl.srv.disarm.io"
-            # placement:
-            #     constraints: [node.role == manager]
         networks: 
             - functions
 
