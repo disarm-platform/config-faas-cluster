@@ -5,9 +5,9 @@ logLevel = "INFO"
 defaultEntryPoints = ["https","http"]
 
 [accessLog]
-  filePath = "/var/log/traefik/access.log"
+  filePath = "./traefik/access.log"
   format = "json"
-  
+
 [entryPoints]
   [entryPoints.http]
   address = ":80"
