@@ -2,12 +2,12 @@
 #logLevel = "ERROR"
 logLevel = "INFO"
 
+defaultEntryPoints = ["https","http"]
+
 [accessLog]
   filePath = "/var/log/traefik/access.log"
   format = "json"
   
-defaultEntryPoints = ["https","http"]
-
 [entryPoints]
   [entryPoints.http]
   address = ":80"
