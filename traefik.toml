@@ -5,7 +5,7 @@ logLevel = "INFO"
 defaultEntryPoints = ["https","http"]
 
 [accessLog]
-  filePath = "./traefik/access.log"
+  filePath = "/traefik/access.log"
   format = "json"
 
 [entryPoints]
