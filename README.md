@@ -26,7 +26,18 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
 1. Start the _proxy_ stack: `docker stack deploy -c docker-compose.yml rp`
 1. Start the _OpenFaas_ stack: `docker stack deploy -c openfaas-docker-compose.yml func`
 1. Add _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`. Must be run after certificate is created in `func` (OpenFaas) stack. **NOTE** If this fails, give `squid` a little time to startup.
+### Logging
 
+1. Install the [stackdriver monitoring agent ](https://cloud.google.com/monitoring/agent/install-agent) by running the commands: 
+    ```
+    curl -sSO https://dl.google.com/cloudagents/install-monitoring-agent.sh
+    sudo bash install-monitoring-agent.sh
+    ```
+
+1. Copy `traefik.conf` to the stackdriver agent directory by running
+    `cp traefik.conf  /etc/google-fluentd/config.d/`
+    
+1. Restart the agent by running the command `sudo service stackdriver-agent restart`
 ### Confirm is alive
 1. Confirm https://traefik.srv.disarm.io is live and reachable, with a couple of _Frontends_ and a couple of _Backends_
 1. Visit https://port.srv.disarm.io to create initial username and password
