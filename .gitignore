@@ -4,6 +4,4 @@ squid/cache
 squid/cert
 squid/log
 
-
-
-
+traefik-logs
