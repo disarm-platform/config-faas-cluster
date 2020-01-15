@@ -35,8 +35,8 @@ curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh
 sudo bash install-logging-agent.sh
 ```
 
-1. Copy `traefik.conf` to the stackdriver agent directory by running
-    `cp traefik.conf  /etc/google-fluentd/config.d/`
+1. Create symbolic link  `traefik.conf` to the logging agent directory by running
+    `sudo ln -s /home/disarm/config-faas-cluster/traefik.conf /etc/google-fluentd/config.d/traefik.conf`
     
 1. Restart the agent by running the command `sudo service google-fluentd restart`
 
