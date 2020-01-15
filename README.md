@@ -29,15 +29,17 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
 ### Logging
 
 1. Install the [stackdriver monitoring agent ](https://cloud.google.com/monitoring/agent/install-agent) by running the commands: 
-    ```
-    curl -sSO https://dl.google.com/cloudagents/install-monitoring-agent.sh
-    sudo bash install-monitoring-agent.sh
-    ```
+
+```
+curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh
+sudo bash install-logging-agent.sh
+```
 
 1. Copy `traefik.conf` to the stackdriver agent directory by running
     `cp traefik.conf  /etc/google-fluentd/config.d/`
     
-1. Restart the agent by running the command `sudo service stackdriver-agent restart`
+1. Restart the agent by running the command `sudo service google-fluentd restart`
+
 ### Confirm is alive
 1. Confirm https://traefik.srv.disarm.io is live and reachable, with a couple of _Frontends_ and a couple of _Backends_
 1. Visit https://port.srv.disarm.io to create initial username and password
