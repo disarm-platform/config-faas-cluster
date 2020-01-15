@@ -25,7 +25,14 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
 ### Start the stacks
 1. Start the _proxy_ stack: `docker stack deploy -c docker-compose.yml rp`
 1. Start the _OpenFaas_ stack: `docker stack deploy -c openfaas-docker-compose.yml func`
-1. Add _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`. Must be run after certificate is created in `func` (OpenFaas) stack. **NOTE** If this fails, give `squid` a little time to startup.
+1. Add _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`. Must be run after certificate is created in `func` (OpenFaas) stack. **NOTE** If this fails, give `squid` a little time to startup. 
+
+
+### Redeploying the stacks
+
+1. Is fine to redeploy the `rp` stack.
+2. If redeploying the `func` stack, **MUST** re-create the Squid secret
+
 ### Logging
 
 1. Install the [Stackdriver logging agent ](https://cloud.google.com/monitoring/agent/install-agent) by running the commands: 
