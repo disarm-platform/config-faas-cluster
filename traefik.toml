@@ -7,8 +7,6 @@ defaultEntryPoints = ["https","http"]
 [accessLog]
   filePath = "/traefik-logs/access.log"
   format = "json"
-    [accessLog.fields.headers]
-      defaultMode = "keep"
 
 [entryPoints]
   [entryPoints.http]
