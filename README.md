@@ -28,7 +28,7 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
 1. Add _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`. Must be run after certificate is created in `func` (OpenFaas) stack. **NOTE** If this fails, give `squid` a little time to startup.
 ### Logging
 
-1. Install the [stackdriver monitoring agent ](https://cloud.google.com/monitoring/agent/install-agent) by running the commands: 
+1. Install the [Stackdriver logging agent ](https://cloud.google.com/monitoring/agent/install-agent) by running the commands: 
 
 ```
 curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh
