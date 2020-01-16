@@ -23,24 +23,34 @@ Config and instructions for a DiSARM OpenFaas cluster from scratch.
     ```
     
 ### Start (or redeploy) the stacks
-1. Start the _proxy_ stack: `docker stack deploy -c docker-compose.yml rp`
-1. Start the _OpenFaas_ stack: `docker stack deploy -c openfaas-docker-compose.yml func`
-1. Add _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`. Must be run after certificate is created in `func` (OpenFaas) stack. **NOTE** If this fails, give `squid` a little time to startup. 
-2. If redeploying the `func` stack, **MUST** re-create the Squid secret
 
-### Logging
+1. Start the `rp` proxy stack: `docker stack deploy -c docker-compose.yml rp`
+1. Start the `func` _OpenFaas_ stack: `docker stack deploy -c openfaas-docker-compose.yml func`
+1. Add Squid secret: add a _secret_ called `ssl-cert`, to allow Squid's SSL certificate to be accesssed by functions: `docker secret create ssl-cert ./squid/cert/private.pem`. 
+    - **NOTE** This Must be run after certificate is created in `func` (OpenFaas) stack. 
+    - If this fails, give `squid` a little time to startup. 
+    - If redeploying the `func` stack, you **MUST** re-create the Squid secret
+
+### Configure Stackdriver logging
+
+Specifically for ingesting logs with Google Cloud Platform logging. 
 
 1. Install the [Stackdriver logging agent ](https://cloud.google.com/monitoring/agent/install-agent) by running the commands: 
 
-```
-curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh
-sudo bash install-logging-agent.sh
-```
+    ```bash
+    curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh
+    sudo bash install-logging-agent.sh
+    ```
 
-1. Create symbolic link  `traefik.conf` to the logging agent directory by running
-    `sudo ln -s /home/disarm/config-faas-cluster/traefik.conf /etc/google-fluentd/config.d/traefik.conf`
+1. Create a symbolic link from `traefik.conf` to the logging agent directory by running
+    ```bash
+    sudo ln -s /home/disarm/config-faas-cluster/traefik.conf /etc/google-fluentd/config.d/traefik.conf
+    ```
     
-1. Restart the agent by running the command `sudo service google-fluentd restart`
+1. Restart the agent with 
+    ```
+    sudo service google-fluentd restart
+    ```
 
 
 ### Confirm is alive
@@ -48,7 +58,8 @@ sudo bash install-logging-agent.sh
 1. Confirm https://traefik.srv.disarm.io is live and reachable, with a couple of _Frontends_ and a couple of _Backends_
 1. Visit https://port.srv.disarm.io to create initial username and password
 
-# Re-deploy functions from one installation to another
+
+## (Simple approach) Re-deploy functions from one installation to another
 
 For example, to deploy all functions in `server1` to `server2`:
 
@@ -62,6 +73,13 @@ curl 'https://faas.server1.disarm.io/system/functions' -H 'authority: faas.serve
 < functions.json | jq -r '.[] | .name,.image' | parallel -n 2 --dry-run 'echo "" | faas invoke {1} --gateway=https://faas.server2.disarm.io'
 
 ```
+
+### !! Limitations with this approach
+
+It ignores any function-specific config which is contained in the `stack.yml` for that function. For example, if the function needs to use the Squid cache, or has a unique timeout.
+
+Useful additional params might be `-e combine-output=false` and `-e write_timeout=300 -e read_timeout=300 -e exec_timeout=300`
+
 
 ## Firewall
 
