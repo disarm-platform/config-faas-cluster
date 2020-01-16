@@ -1,5 +1,19 @@
 # config-faas-cluster
-Config and instructions for a DiSARM OpenFaas cluster from scratch.
+
+## Overview
+
+These are the instructions for deploying a DiSARM OpenFaas cluster from scratch.
+
+The main components are split into 2 stacks:
+
+1. `rp` - the basic reverse proxy and management (`docker-compose.yml`)
+    - [Portainer](https://www.portainer.io/): container management GUI
+    - [Traefik](https://docs.traefik.io/): reverse proxy
+2. `func` - the OpenFaaS installation (`openfaas-docker-compose.yml`)
+    - [OpenFaaS](https://www.openfaas.com/): serverless functions
+    - [Squid](http://www.squid-cache.org/): caching proxy
+
+If you're using the Portainer agent, this might setup a 3rd stack.
 
 ## Setup
 
@@ -80,6 +94,25 @@ It ignores any function-specific config which is contained in the `stack.yml` fo
 
 Useful additional params might be `-e combine-output=false` and `-e write_timeout=300 -e read_timeout=300 -e exec_timeout=300`
 
+
+## Squid caching proxy
+
+We use Squid to optionally cache any HTTP/HTTPS requests from deployed functions.
+
+Any function wanting to make use of this will need to include the following properties in the `stack.yml`:
+
+```yaml
+provider: ...
+functions:
+  function-name:
+    ...
+    secrets:
+      - ssl-cert
+    environment:
+      http_proxy: squid:3128
+      https_proxy: squid:4128
+      CURL_CA_BUNDLE: /var/openfaas/secrets/ssl-cert
+```
 
 ## Firewall
 
