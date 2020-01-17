@@ -45,25 +45,19 @@ If you're using the Portainer agent, this might setup a 3rd stack.
     - If this fails, give `squid` a little time to startup. 
     - If redeploying the `func` stack, you **MUST** re-create the Squid secret
 
-### Configure Stackdriver logging
 
-Specifically for ingesting logs with Google Cloud Platform logging. 
-
-1. Install the [Stackdriver logging agent ](https://cloud.google.com/monitoring/agent/install-agent) by running the commands: 
-
-    ```bash
-    curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh
-    sudo bash install-logging-agent.sh
-    ```
-
-1. Create a symbolic link from `traefik.conf` to the logging agent directory by running
-    ```bash
-    sudo ln -s /home/disarm/config-faas-cluster/traefik.conf /etc/google-fluentd/config.d/traefik.conf
-    ```
     
-1. Restart the agent with 
+
+
+### Setting up docker GCP logs
+
+1. Create /etc/docker/daemon.json.
+    ```sh
+        echo '{"log-driver":"gcplogs"}' | sudo tee /etc/docker/daemon.json
     ```
-    sudo service google-fluentd restart
+1.  Restart the docker service.
+    ```sh
+         sudo systemctl restart docker
     ```
 
 
