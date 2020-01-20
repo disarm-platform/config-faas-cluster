@@ -59,6 +59,7 @@ If you're using the Portainer agent, this might setup a 3rd stack.
     ```sh
          sudo systemctl restart docker
     ```
+ [Source](https://cloud.google.com/community/tutorials/docker-gcplogs-driver)
 
 
 ### Confirm is alive
