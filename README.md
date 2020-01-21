@@ -51,6 +51,10 @@ If you're using the Portainer agent, this might setup a 3rd stack.
 
 ### Setting up docker GCP logs
 
+Need to repeat this for _every node in a cluster_.
+
+[Source](https://cloud.google.com/community/tutorials/docker-gcplogs-driver)
+
 1. Create /etc/docker/daemon.json.
     ```sh
         echo '{"log-driver":"gcplogs"}' | sudo tee /etc/docker/daemon.json
@@ -59,7 +63,6 @@ If you're using the Portainer agent, this might setup a 3rd stack.
     ```sh
          sudo systemctl restart docker
     ```
- [Source](https://cloud.google.com/community/tutorials/docker-gcplogs-driver)
 
 
 ### Confirm is alive
