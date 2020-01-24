@@ -76,7 +76,7 @@ To ingest custom logs with Google Cloud Platform logging.
 
 1. Create a symbolic link from `squid_fluentd.conf` to the logging agent directory by running
     ```bash
-    sudo ln -s /home/disarm/config-faas-cluster/squid/squid_fluentd.conf /etc/google-fluentd/config.d/squid_fluentd.conf
+    sudo ln -s /home/disarm/config-faas-cluster/squid_fluentd.conf /etc/google-fluentd/config.d/squid_fluentd.conf
     ```
     
 1. Restart the agent with 
