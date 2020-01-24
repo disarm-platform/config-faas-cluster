@@ -46,10 +46,9 @@ If you're using the Portainer agent, this might setup a 3rd stack.
     - If redeploying the `func` stack, you **MUST** re-create the Squid secret
 
 
-    
+### Set default Docker logging to GCP
 
-
-### Setting up docker GCP logs
+This is to get all container logs showing in GCP log viewer.
 
 Need to repeat this for _every node in a cluster_.
 
@@ -57,12 +56,34 @@ Need to repeat this for _every node in a cluster_.
 
 1. Create /etc/docker/daemon.json.
     ```sh
-        echo '{"log-driver":"gcplogs"}' | sudo tee /etc/docker/daemon.json
+    echo '{"log-driver":"gcplogs"}' | sudo tee /etc/docker/daemon.json
     ```
 1.  Restart the docker service.
     ```sh
-         sudo systemctl restart docker
+    sudo systemctl restart docker
     ```
+
+### Configure custom GCP logging for `squid`
+
+To ingest custom logs with Google Cloud Platform logging. 
+
+1. Install the [Stackdriver logging agent ](https://cloud.google.com/monitoring/agent/install-agent) by running the commands: 
+
+    ```sh
+    curl -sSO https://dl.google.com/cloudagents/install-logging-agent.sh
+    sudo bash install-logging-agent.sh
+    ```
+
+1. Create a symbolic link from `squid_fluentd.conf` to the logging agent directory by running
+    ```bash
+    sudo ln -s /home/disarm/config-faas-cluster/squid/squid_fluentd.conf /etc/google-fluentd/config.d/squid_fluentd.conf
+    ```
+    
+1. Restart the agent with 
+    ```bash
+    sudo service google-fluentd restart
+    ```
+
 
 
 ### Confirm is alive
