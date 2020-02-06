@@ -29,6 +29,7 @@ services:
                 - "traefik.docker.network=traefik-net"
                 - "traefik.frontend.rule=Host:faas.srv.disarm.io"
                 - "traefik.port=8080"
+                - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin:*"
             resources:
                 # limits:   # Enable if you want to limit memory usage
                 #     memory: 200M
