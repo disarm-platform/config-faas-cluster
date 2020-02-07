@@ -28,7 +28,7 @@ services:
             labels:
                 - "traefik.docker.network=traefik-net"
                 - "traefik.http.routers.port.rule=Host(`faas.srv.disarm.io`)" 
-                -- "traefik.http.services.port.loadbalancer.server.port=8080"
+                - "traefik.http.services.port.loadbalancer.server.port=8080"
                 - "traefik.http.middlewares.cors.headers.accesscontrolallowmethods=POST, GET, OPTIONS"
                 - "traefik.http.middlewares.cors.headers.accesscontrolalloworigin=*"
                 - "traefik.http.middlewares.cors.headers.accesscontrolmaxage=100"

@@ -14,10 +14,6 @@ services:
         - "traefik.docker.network=traefik-net"
         - "traefik.http.services.port.loadbalancer.server.port=9000"
         - "traefik.http.routers.port.rule=Host(`port.srv.disarm.io`)"
-        - "traefik.http.routers.traefik.entrypoints=websecure"
-        - "traefik.http.routers.faas.tls.certresolver=httpchallenge"
-        - "traefik.http.routers.web.entrypoints=web"
-        - "traefik.http.routers.web.middlewares=redirect@file"
       placement:
         constraints: [node.role == manager]
     networks:
@@ -26,7 +22,6 @@ services:
   traefik:
     image: "traefik:v2.0.0-rc3"
     # For initial setup, keep the `--api` flag
-    command: --api.insecure=true --providers.docker
     # --api --docker --docker.swarmmode --docker.watch
     # For production: (remove the `--api` flag, and the 8085:8080 port mapping below)
     # command: --docker --docker.swarmmode --docker.watch
@@ -42,8 +37,11 @@ services:
     deploy:
       labels:
         - "traefik.docker.network=traefik-net"
-        - "traefik.http.services.port.loadbalancer.server.port=9000"
-        - "traefik.http.routers.port.rule=Host(`traefik.srv.disarm.io`)" 
+        - "traefik.http.services.port.loadbalancer.server.port=8080"
+        - "traefik.http.routers.traefik.rule=Host(`traefik.srv.disarm.io`)" 
+        - "traefik.http.routers.api.service=api@internal"
+        - "traefik.http.routers.api.middlewares=auth"
+        - "traefik.http.middlewares.auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/,test2:$$apr1$$d9hr9HBB$$4HxwgUir3HP4EsggP/QNo0"
       placement:
         constraints: [node.role == manager]
     networks:
