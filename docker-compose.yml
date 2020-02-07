@@ -1,52 +1,64 @@
-version: "3.3"
+version: '3.3'
 
 services:
-    portainer:
-        image: portainer/portainer:1.22.2
-        command: -H unix:///var/run/docker.sock
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - portainer_data:/data
-        ports:
-            - "9000:9000"
-        deploy:
-            labels:
-               - "traefik.docker.network=traefik-net"
-               - "traefik.port=9000"
-               - "traefik.frontend.rule=Host:port.srv.disarm.io"
-            placement:
-                constraints: [node.role == manager]
-        networks:
-            - traefik-net
+  portainer:
+    image: portainer/portainer:1.22.2
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    ports:
+      - '9000:9000'
+    deploy:
+      labels:
+        - "traefik.docker.network=traefik-net"
+        - "traefik.http.services.port.loadbalancer.server.port=9000"
+        - "traefik.http.routers.port.rule=Host(`port.srv.disarm.io`)"
+        - "traefik.http.routers.traefik.entrypoints=websecure"
+        - "traefik.http.routers.faas.tls.certresolver=myhttpchallenge"
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - traefik-net
 
-    traefik:
-        image: traefik:v1.7.16
-        # For initial setup, keep the `--api` flag
-        command: --api --docker --docker.swarmmode --docker.watch
-        # For production: (remove the `--api` flag, and the 8085:8080 port mapping below)
-        # command: --docker --docker.swarmmode --docker.watch
-        ports:
-            - "80:80" # The HTTP port, not the web UI port
-            - "8085:8080" # Keep for debugging, remove for production
-            - "443:443"
-        volumes:
-            - ./acme:/acme
-            - ./traefik-logs:/traefik-logs
-            - ./traefik.toml:/traefik.toml
-            - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
-        deploy:
-            labels:
-                - "traefik.frontend.rule=Host:traefik.srv.disarm.io"
-                - "traefik.port=8080"
-                - "traefik.docker.network=traefik-net"
-            placement:
-                constraints: [node.role == manager]
-        networks:
-            - traefik-net
+  traefik:
+    image: "traefik:v2.0.0-rc3"
+    # For initial setup, keep the `--api` flag
+    command:
+      - '--providers.docker.endpoint=unix:///var/run/docker.sock'
+      - '--metrics=true'
+      - '--metrics.prometheus=true'
+      - '--metrics.prometheus.addServicesLabels=true'
+      - '--providers.docker.swarmMode=true'
+      - '--providers.docker.network=traefik-net'
+      - '--entrypoints.websecure.address=:443'
+    # --api --docker --docker.swarmmode --docker.watch
+    # For production: (remove the `--api` flag, and the 8085:8080 port mapping below)
+    # command: --docker --docker.swarmmode --docker.watch
+    ports:
+      - '80:80' # The HTTP port, not the web UI port
+      - '8085:8080' # Keep for debugging, remove for production
+      - '443:443'
+    volumes:
+      - ./acme:/acme
+      - ./traefik-logs:/traefik-logs
+      - ./traefik.toml:/traefik.toml
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.traefik.rule=Host(`traefik.srv.disarm.io`)"
+        - "traefik.http.routers.traefik.entrypoints=websecure"
+        - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+        - "traefik.http.routers.faas.tls.certresolver=myhttpchallenge"
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - traefik-net
 
 networks:
-    traefik-net:
-        driver: overlay
-        external: true
+  traefik-net:
+    driver: overlay
+    external: true
 volumes:
-    portainer_data:
+  portainer_data:
