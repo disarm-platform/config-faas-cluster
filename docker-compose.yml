@@ -39,7 +39,6 @@ services:
                 - "traefik.frontend.rule=Host:traefik.srv.disarm.io"
                 - "traefik.port=8080"
                 - "traefik.docker.network=traefik-net"
-                - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin:*||Access-Control-Allow-Methods:POST, GET, OPTIONS||Access-Control-Allow-Headers:content-type"
             placement:
                 constraints: [node.role == manager]
         networks:
