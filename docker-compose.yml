@@ -15,7 +15,9 @@ services:
         - "traefik.http.services.port.loadbalancer.server.port=9000"
         - "traefik.http.routers.port.rule=Host(`port.srv.disarm.io`)"
         - "traefik.http.routers.traefik.entrypoints=websecure"
-        - "traefik.http.routers.faas.tls.certresolver=myhttpchallenge"
+        - "traefik.http.routers.faas.tls.certresolver=httpchallenge"
+        - "traefik.http.routers.web.entrypoints=web"
+        - "traefik.http.routers.web.middlewares=redirect@file"
       placement:
         constraints: [node.role == manager]
     networks:
@@ -24,14 +26,7 @@ services:
   traefik:
     image: "traefik:v2.0.0-rc3"
     # For initial setup, keep the `--api` flag
-    command:
-      - '--providers.docker.endpoint=unix:///var/run/docker.sock'
-      - '--metrics=true'
-      - '--metrics.prometheus=true'
-      - '--metrics.prometheus.addServicesLabels=true'
-      - '--providers.docker.swarmMode=true'
-      - '--providers.docker.network=traefik-net'
-      - '--entrypoints.websecure.address=:443'
+    command: --api.insecure=true --providers.docker
     # --api --docker --docker.swarmmode --docker.watch
     # For production: (remove the `--api` flag, and the 8085:8080 port mapping below)
     # command: --docker --docker.swarmmode --docker.watch
@@ -46,11 +41,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
     deploy:
       labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.traefik.rule=Host(`traefik.srv.disarm.io`)"
-        - "traefik.http.routers.traefik.entrypoints=websecure"
-        - "traefik.http.services.traefik.loadbalancer.server.port=8080"
-        - "traefik.http.routers.faas.tls.certresolver=myhttpchallenge"
+        - "traefik.docker.network=traefik-net"
+        - "traefik.http.services.port.loadbalancer.server.port=9000"
+        - "traefik.http.routers.port.rule=Host(`traefik.srv.disarm.io`)" 
       placement:
         constraints: [node.role == manager]
     networks:

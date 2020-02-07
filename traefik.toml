@@ -1,31 +1,18 @@
-#debug = true
-#logLevel = "ERROR"
-logLevel = "INFO"
-
-defaultEntryPoints = ["https","http"]
+[providers.docker]
+  endpoint = "unix:///var/run/docker.sock"
+  swarmMode = true
 
 [entryPoints]
-  [entryPoints.http]
-  address = ":80"
-    [entryPoints.http.redirect]
-    entryPoint = "https"
-  [entryPoints.https]
-  address = ":443"
-  [entryPoints.https.tls]
+  [entryPoints.web]
+    address = ":80"
 
-[retry]
+  [entryPoints.web-secure]
+    address = ":443"
 
-[docker]
-endpoint = "unix:///var/run/docker.sock"
-domain = "srv.disarm.io"
-watch = true
-exposedByDefault = false
-
-[acme]
-email = "admin@peoplesized.com"
-storage = "/acme/certs.json"
-entryPoint = "https"
-onHostRule = true
-  [acme.httpChallenge]
-  entryPoint = "http"
+[certificatesResolvers.myhttpchallenge.acme]
+  email = "admin@peoplesized.com"
+  storage = "/acme/certs.json"
+  [certificatesResolvers.myhttpchallenge.acme.httpChallenge]
+    # used during the challenge
+    entryPoint = "web"
 
