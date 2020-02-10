@@ -19,6 +19,13 @@
   [certificatesResolvers.myhttpchallenge.acme.httpChallenge]
     # used during the challenge
     entryPoint = "web"
+[api]
+  dashboard = true
+
+
+
+[providers.file]
+  directory = "/dynamic/"
 
 [http.routers]
   [http.routers.http_catchall]
