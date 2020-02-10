@@ -11,18 +11,20 @@ services:
             - "9000:9000"
         deploy:
             labels:
-               - "traefik.docker.network=traefik-net"
-               - "traefik.port=9000"
-               - "traefik.frontend.rule=Host:port.srv.disarm.io"
+                - "traefik.docker.network=traefik-net"
+                - "traefik.http.services.port.loadbalancer.server.port=9000"
+                - "traefik.http.routers.port.rule=Host(`port.srv.disarm.io`)"
+                - "traefik.http.routers.port.entrypoints=websecure"
+                - "traefik.http.routers.port.tls.certresolver=myhttpchallenge"
             placement:
                 constraints: [node.role == manager]
         networks:
             - traefik-net
 
     traefik:
-        image: traefik:v1.7.16
+        image: traefik:v2.0.0-rc3
         # For initial setup, keep the `--api` flag
-        command: --api --docker --docker.swarmmode --docker.watch
+        # command: --api --docker --docker.swarmmode --docker.watch
         # For production: (remove the `--api` flag, and the 8085:8080 port mapping below)
         # command: --docker --docker.swarmmode --docker.watch
         ports:
@@ -36,9 +38,19 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
         deploy:
             labels:
-                - "traefik.frontend.rule=Host:traefik.srv.disarm.io"
-                - "traefik.port=8080"
-                - "traefik.docker.network=traefik-net"
+                - "traefik.enable=true"
+                - "traefik.http.routers.traefik.rule=Host(`traefik.srv.disarm.io`)"
+                - "traefik.http.routers.traefik.entrypoints=websecure"
+                - "traefik.http.routers.traefik.tls.certresolver=myhttpchallenge"
+                - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+                - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:[a-z-.]+}`)"
+                - "traefik.http.routers.http-catchall.entrypoints=web"
+                - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+                - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+                - "traefik.http.routers.api.service=api@internal"
+                - "traefik.http.routers.api.middlewares=auth"
+                - "traefik.http.middlewares.auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/,test2:$$apr1$$d9hr9HBB$$4HxwgUir3HP4EsggP/QNo0"
+                - "traefik.http.routers.api.rule=PathPrefix(`/api`) || PathPrefix(`/dashboard`)"
             placement:
                 constraints: [node.role == manager]
         networks:

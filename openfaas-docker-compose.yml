@@ -27,8 +27,15 @@ services:
         deploy:
             labels:
                 - "traefik.docker.network=traefik-net"
-                - "traefik.frontend.rule=Host:faas.srv.disarm.io"
-                - "traefik.port=8080"
+                - "traefik.http.services.port.loadbalancer.server.port=8080"
+                - "traefik.http.routers.port.rule=Host(`faas.srv.disarm.io`)"
+                - "traefik.http.routers.port.entrypoints=websecure"
+                - "traefik.http.routers.port.tls.certresolver=myhttpchallenge"
+                - "traefik.http.middlewares.cors.headers.accesscontrolallowmethods=POST, GET, OPTIONS"
+                - "traefik.http.middlewares.cors.headers.accesscontrolalloworigin=*"
+                - "traefik.http.middlewares.cors.headers.accesscontrolmaxage=100"
+                - "traefik.http.middlewares.cors.headers.accessControlAllowHeaders=Content-Type,Accept"
+                - "traefik.http.routers.faas.middlewares=cors"
             resources:
                 # limits:   # Enable if you want to limit memory usage
                 #     memory: 200M
