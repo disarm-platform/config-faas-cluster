@@ -1,4 +1,4 @@
-version: "3.3"
+version: '3.3'
 
 services:
     portainer:
@@ -61,8 +61,8 @@ services:
             - traefik-net
 
 networks:
-    traefik-net:
-        driver: overlay
-        external: true
+  traefik-net:
+    driver: overlay
+    external: true
 volumes:
-    portainer_data:
+  portainer_data:
