@@ -27,10 +27,10 @@ services:
         deploy:
             labels:
                 - "traefik.docker.network=traefik-net"
-                - "traefik.http.services.port.loadbalancer.server.port=8080"
-                - "traefik.http.routers.port.rule=Host(`faas.srv.disarm.io`)"
-                - "traefik.http.routers.port.entrypoints=websecure"
-                - "traefik.http.routers.port.tls.certresolver=myhttpchallenge"
+                - "traefik.http.services.faas.loadbalancer.server.port=8080"
+                - "traefik.http.routers.faas.rule=Host(`faas.srv.disarm.io`)"
+                - "traefik.http.routers.faas.entrypoints=websecure"
+                - "traefik.http.routers.faas.tls.certresolver=myhttpchallenge"
                 - "traefik.http.middlewares.cors.headers.accesscontrolallowmethods=POST, GET, OPTIONS"
                 - "traefik.http.middlewares.cors.headers.accesscontrolalloworigin=*"
                 - "traefik.http.middlewares.cors.headers.accesscontrolmaxage=100"

@@ -14,7 +14,6 @@ services:
                 - "traefik.docker.network=traefik-net"
                 - "traefik.http.services.port.loadbalancer.server.port=9000"
                 - "traefik.http.routers.port.rule=Host(`port.srv.disarm.io`)"
-                - "traefik.http.routers.port.entrypoints=websecure"
                 - "traefik.http.routers.port.tls.certresolver=myhttpchallenge"
             placement:
                 constraints: [node.role == manager]
@@ -24,7 +23,20 @@ services:
     traefik:
         image: traefik:v2.0.0-rc3
         # For initial setup, keep the `--api` flag
-        # command: --api --docker --docker.swarmmode --docker.watch
+        command:
+            - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+            - "--api.insecure"
+            - "--metrics=true"
+            - "--metrics.prometheus=true"
+            - "--metrics.prometheus.addServicesLabels=true"
+            - "--providers.docker.swarmMode=true"
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.websecure.address=:443"
+            - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
+            - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web"
+            - "--certificatesresolvers.myhttpchallenge.acme.email=admin@peoplesized.com"
+            - "--certificatesresolvers.myhttpchallenge.acme.storage=/acme/certs.json"
+            - "traefik.http.routers.traefik.tls.certresolver=myhttpchallenge"
         # For production: (remove the `--api` flag, and the 8085:8080 port mapping below)
         # command: --docker --docker.swarmmode --docker.watch
         ports:
@@ -34,14 +46,13 @@ services:
         volumes:
             - ./acme:/acme
             - ./traefik-logs:/traefik-logs
-            - ./traefik.toml:/traefik.toml
             - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
         deploy:
             labels:
                 - "traefik.enable=true"
+                - "traefik.docker.network=traefik-net"
                 - "traefik.http.routers.traefik.rule=Host(`traefik.srv.disarm.io`)"
                 - "traefik.http.routers.traefik.entrypoints=websecure"
-                - "traefik.http.routers.traefik.tls.certresolver=myhttpchallenge"
                 - "traefik.http.services.traefik.loadbalancer.server.port=8080"
             placement:
                 constraints: [node.role == manager]
