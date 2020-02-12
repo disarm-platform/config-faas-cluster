@@ -223,8 +223,8 @@ services:
             gateway_url: "http://gateway:8080/"
             prometheus_host: "prometheus"
             prometheus_port: "9090"
-            inactivity_duration: "1m" #TODO: Discuss inactivity duration
-            reconcile_interval: "30s"
+            inactivity_duration: "2m3s"
+            reconcile_interval: "1m3s"
         command: "-dry-run=false"
         deploy:
             resources:
