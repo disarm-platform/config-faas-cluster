@@ -44,6 +44,11 @@ services:
         networks:
             - traefik-net
 
+    cors-anywhere:
+        image: psimonov/cors-anywhere
+        ports:
+            - "3000:3000"
+
 networks:
     traefik-net:
         driver: overlay
