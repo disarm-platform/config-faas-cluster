@@ -45,9 +45,19 @@ services:
             - traefik-net
 
     cors-anywhere:
-        image: psimonov/cors-anywhere
-        ports:
-            - "3000:3000"
+        image: psimonov/cors-anywhere:latest
+        #ports:
+            # - "3000:3000"
+        deploy:
+            labels:
+                - "traefik.frontend.rule=Host:cors-anywhere.srv.disarm.io"
+                - "traefik.port=3000"
+                - "traefik.docker.network=traefik-net"
+            placement:
+                constraints: [node.role == manager]
+        networks:
+            - traefik-net
+    
 
 networks:
     traefik-net:
