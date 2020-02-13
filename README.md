@@ -9,6 +9,7 @@ The main components are split into 2 stacks:
 1. `rp` - the basic reverse proxy and management (`docker-compose.yml`)
     - [Portainer](https://www.portainer.io/): container management GUI
     - [Traefik](https://docs.traefik.io/): reverse proxy
+    - [CORS-Anywhere](https://github.com/Rob--W/cors-anywhere): enable easy function-running from browsers
 2. `func` - the OpenFaaS installation (`openfaas-docker-compose.yml`)
     - [OpenFaaS](https://www.openfaas.com/): serverless functions
     - [Squid](http://www.squid-cache.org/): caching proxy
@@ -113,6 +114,10 @@ It ignores any function-specific config which is contained in the `stack.yml` fo
 
 Useful additional params might be `-e combine-output=false` and `-e write_timeout=300 -e read_timeout=300 -e exec_timeout=300`
 
+
+## Development on another server
+
+Useful to run something like `sed -i '' 's/srv/srv4/g' *.{yml,toml}` to quickly make changes on a remote server.
 
 ## Squid caching proxy
 
