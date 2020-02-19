@@ -149,7 +149,7 @@ functions:
 4789/udp
 ```
 
-At least 2377, 4789, 7946 (from [here](https://www.digitalocean.com/community/tutorials/how-to-configure-the-linux-firewall-for-docker-swarm-on-centos-7)) and also maybe list [here](https://gist.github.com/BretFisher/7233b7ecf14bc49eb47715bbeb2a2769)
+At least 2377, 4789, 7946 (from [here](https://www.digitalocean.com/community/tutorials/how-to-configure-the-linux-firewall-for-docker-swarm-on-centos-7)) and also maybe list [here](https://gist.github.com/BretFisher/7233b7ecf14bc49eb47715bbeb2a2769). Also possibly 9001 for [Portainer Agent](https://portainer.readthedocs.io/en/stable/agent.html#connecting-an-existing-portainer-instance-to-an-agent)
 
 ## Cleanup
 1. Once confirmed stack is up and Traefik is running fine, remove the port entry from `docker-compose.yml` to avoid leaving traefik dashboard exposed, and redeploy stack as above(`docker stack deploy...`).
